@@ -1,22 +1,26 @@
-console.log("hello");
-var elMap = document.getElementById('loc');
-var msg = 'Sorry, we were unable to find your location.';
+var x = document.getElementById("demo");
 
-if(Modernizr.geolocation){
-	navigator.geolocation.getCurrentPosition(success, fail);
-	elMap.textContent = 'Checking Location...';
-} else{
-	elMap.textContent = msg;
+function getLocation() {
+	alert("save me");
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+		//navigator.geolocation.getCurrentPosition(succes, fail);
+    } else { 
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
 }
 
-function success(position){
-	console.log("Hello!");
-	var longitude = Position.coords.longitude;
-	var latitude = Position.coords.latitude;
-	console.log(longitude, latitude);
+function showPosition(position) {
+    x.innerHTML = "Latitude: " + position.coords.latitude + 
+    "<br>Longitude: " + position.coords.longitude;
 }
 
-function fail(msg){
-	elMap.textContent = msg;
-	console.log(msg.code);
+/*function success(){
+	alert("Hey bby");
 }
+
+function fail(){
+	return;
+}*/
+
+document.getElementById("loc").addEventListener("click", getLocation, false);
