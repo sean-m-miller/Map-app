@@ -1,26 +1,34 @@
-var x = document.getElementById("demo");
+var x = document.getElementById("coords");
+var y = document.getElementById("map");
+var newLat, newLong;
 
 function getLocation() {
 	alert("save me");
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-		//navigator.geolocation.getCurrentPosition(succes, fail);
+        navigator.geolocation.getCurrentPosition(generateMap, fail);
     } else { 
         x.innerHTML = "Geolocation is not supported by this browser.";
     }
 }
 
-function showPosition(position) {
+function generateMap(position) {
     x.innerHTML = "Latitude: " + position.coords.latitude + 
     "<br>Longitude: " + position.coords.longitude;
+	newLat = otherSide(position.coords.latitude);
+	newLong = otherSide(position.coords.longitude);
+	y.textNode = makeMap(newLat, newLong);
 }
 
-/*function success(){
-	alert("Hey bby");
+function makeMap(){
+	
 }
 
 function fail(){
-	return;
-}*/
+	alert("error while getting coordinates");
+}
 
-document.getElementById("loc").addEventListener("click", getLocation, false);
+function otherSide(coord){
+	return-1*coord;
+}
+
+document.getElementById("loc").addEventListener("click", getLocation);
