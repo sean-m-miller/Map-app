@@ -1,38 +1,66 @@
 var x = document.getElementById("coords");
-var y = document.getElementById("map");
+var newLat;
+var newLang;
 
 function getLocation() {
-	alert("save me");
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(generateMap, fail);
-    } else { 
-        x.innerHTML = "Geolocation is not supported by this browser.";
-    }
+	if(Modernizr.geolocation){
+    	if (navigator.geolocation) {
+        	navigator.geolocation.getCurrentPosition(generateMap);
+    	} else { 
+        	x.innerHTML = "Position error";
+    	}
+	}
+	else{
+		alert("Sorry... Geolocation is not supported by this browser, or you have rejected the offer.");
+	}
 }
 
 function generateMap(position) {
-    x.innerHTML = "Latitude: " + position.coords.latitude + 
-    "<br>Longitude: " + position.coords.longitude;
-	var newLat = otherSide(position.coords.latitude);
-	var newLong = otherSide(position.coords.longitude);
-	makeMap(newLat, newLong);
+	newLat = position.coords.latitude * -1;
+	if(position.coords.longitude < 0){
+		newLong = position.coords.longitude + 180;
+	}
+	else{
+		newLong = position.coords.longitude - 180;
+	}
+    x.innerHTML = "Your Current Latitude: " + position.coords.latitude + " Your NEW Latitude: " + newLat +
+    "<br>Your Current Longitude: " + position.coords.longitude + " Your NEW Longitude: " + newLong;
+	initMap();
 }
 
-//API key: AIzaSyDpW4XsD9S3yJdENJ4Mems1f1Obw_bVlGk
-function makeMap(a, b){
-	var mymap = {
-		center:new google.maps.LatLng(newLat, newLang);
-		zoom: 5;
-	};
-	var themap = new google.maps.Map(y, mymap);
-}
-
-function fail(){
-	alert("error while getting coordinates");
-}
-
-function otherSide(coord){
-	return-1*coord;
+function initMap() {
+  var otherSide = {lat: newLat, lng: newLong};
+  var current = {lat: newLat*-1, lng: newLong+180};
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 2,
+	center: otherSide
+  });
+  var marker = new google.maps.Marker({
+    position: otherSide,
+    map: map,
+	title: 'Other Side of the World!',
+  });
+  var marker2 = new google.maps.Marker({
+	position: current,
+	map: map,
+	title: 'Current Location',
+  });
+  marker.setMap(map);
+  marker2.setMap(map);
+  google.maps.event.addListener(marker , 'click', function(){
+        var infowindow = new google.maps.InfoWindow({
+          content:'Other Side of the World!',
+          position: otherSide,
+        });
+        infowindow.open(map);
+  });
+  google.maps.event.addListener(marker2 , 'click', function(){
+        var infowindow = new google.maps.InfoWindow({
+          content:'Current Location',
+          position: current,
+        });
+        infowindow.open(map);
+  });
 }
 
 document.getElementById("loc").addEventListener("click", getLocation);

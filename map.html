@@ -1,16 +1,20 @@
 <html>
-<body>
-
-<p>Click the button to get your coordinates.</p>
-
-<button id="loc">Try It</button>
-
-<p id="coords"></p>
-
-<p id="map"></p>
-
-<script src="map.js"></script>
-<script src="https:////maps.googleapis.com/maps/api/js?key=AIzaSyDpW4XsD9S3yJdENJ4Mems1f1Obw_bVlGk&callback=makeMap"></script>
-
-</body>
+<title>OtherSide</title>
+	<body>
+		<style>
+	       #map {
+	        height: 400px;
+	        width: 100%;
+	       }
+		</style>
+		<p>Click the button to find the Other Side of the World!</p>
+		<button id="loc">Click Me!</button>
+		<p id="coords"></p>
+		<p id="map"></p>
+		<script src="map.js"></script>
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpW4XsD9S3yJdENJ4Mems1f1Obw_bVlGk&callback=initMap"type="text/javascript"></script>
+		<script src ="modernizr-custom.js"></script>
+	</body>
 </html>
+
+<!--API key: AIzaSyDpW4XsD9S3yJdENJ4Mems1f1Obw_bVlGk-->
