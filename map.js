@@ -1,6 +1,5 @@
 var x = document.getElementById("coords");
 var y = document.getElementById("map");
-var newLat, newLong;
 
 function getLocation() {
 	alert("save me");
@@ -14,13 +13,18 @@ function getLocation() {
 function generateMap(position) {
     x.innerHTML = "Latitude: " + position.coords.latitude + 
     "<br>Longitude: " + position.coords.longitude;
-	newLat = otherSide(position.coords.latitude);
-	newLong = otherSide(position.coords.longitude);
-	y.textNode = makeMap(newLat, newLong);
+	var newLat = otherSide(position.coords.latitude);
+	var newLong = otherSide(position.coords.longitude);
+	makeMap(newLat, newLong);
 }
 
-function makeMap(){
-	
+//API key: AIzaSyDpW4XsD9S3yJdENJ4Mems1f1Obw_bVlGk
+function makeMap(a, b){
+	var mymap = {
+		center:new google.maps.LatLng(newLat, newLang);
+		zoom: 5;
+	};
+	var themap = new google.maps.Map(y, mymap);
 }
 
 function fail(){
